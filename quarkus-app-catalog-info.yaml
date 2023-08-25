@@ -1,0 +1,120 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "my-quarkus-app"
+  description: "A cool quarkus app"
+  annotations:
+    argocd/app-name: my-quarkus-app-dev
+    backstage.io/kubernetes-id: my-quarkus-app
+    backstage.io/kubernetes-namespace: my-quarkus-app-dev
+    janus-idp.io/tekton-enabled : 'true'
+    backstage.io/source-location: url:https://gitlab-gitlab.apps.cluster-n4ggb.sandbox1252.opentlc.com/rhdh/my-quarkus-app
+    backstage.io/techdocs-ref: url:https://gitlab-gitlab.apps.cluster-n4ggb.sandbox1252.opentlc.com/rhdh/my-quarkus-app
+    gitlab.com/project-slug: rhdh/my-quarkus-app
+    quay.io/repository-slug: "quayadmin/my-quarkus-app"
+  tags:
+    - java
+    - quarkus
+  links:
+    - url: https://devspaces.apps.cluster-n4ggb.sandbox1252.opentlc.com/#https://gitlab-gitlab.apps.cluster-n4ggb.sandbox1252.opentlc.com/rhdh/my-quarkus-app?che-editor=che-incubator/che-code/insiders&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+    - url: https://devspaces.apps.cluster-n4ggb.sandbox1252.opentlc.com/#https://gitlab-gitlab.apps.cluster-n4ggb.sandbox1252.opentlc.com/rhdh/my-quarkus-app?che-editor=che-incubator/che-idea/latest&devfilePath=.devfile-intellij.yaml
+      title: OpenShift Dev Spaces (JetBrains IntelliJ)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "dev-user"
+  system: workshop-system-poi
+  providesApis:
+    - "my-quarkus-app"
+  dependsOn: 
+    - component:poi-poi-backend-app-dev
+    - resource:poi-db
+    - resource:argocd
+    - resource:keycloak
+  consumesApis:
+    - backend-api-poi
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-poi
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "dev-user"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: "my-quarkus-app"
+  description: "A cool quarkus app"
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "dev-user"
+  system: workshop-system-poi
+  definition:
+    $text: ./openapi.yaml
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: poi-db
+  title: PostgreSQL cluster
+  description: PostgreSQL is a powerful, open source object-relational database system. PostgreSQL cluster is created by Crunchy Postgres for Kubernetes operator. We use Postgres as the databse for this showcase.
+  links:
+    - url: https://www.crunchydata.com/products/crunchy-high-availability-postgresql
+      title: Crunchy product pages
+      icon: web
+    - url: https://access.crunchydata.com/documentation/postgres-operator/v5/
+      title: Documentation
+      icon: web
+spec:
+  type: database
+  lifecycle: production
+  owner: dev-user
+  system: workshop-system-poi
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: argocd
+  title: ArgoCD
+  description: Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. We use ArgoCD for the deployment of this showcase.
+  links:
+    - url: https://argocd.operate-first.cloud/
+      title: Instance of ArgoCD
+      icon: web
+    - url: https://argo-cd.readthedocs.io/en/stable/
+      title: Documentation
+      icon: web
+      
+spec:
+  type: identity-provider
+  lifecycle: production
+  owner: dev-user
+  system: workshop-system-poi
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: keycloak
+  title: KeyCloak
+  description: Keycloak is an open source software product to allow single sign-on with identity and access management aimed at modern applications and services. We use keycloack in this showcase.
+  links:
+    - url: https://www.keycloak.org/documentation
+      title: Documentation
+      icon: web
+spec:
+  type: identity-provider
+  lifecycle: production
+  owner: dev-user
+  system: workshop-system-poi
