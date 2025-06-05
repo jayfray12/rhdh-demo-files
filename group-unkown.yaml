@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  name: unknown
+  description: Then unknown Group
+spec:
+  type: team
+  children: []
