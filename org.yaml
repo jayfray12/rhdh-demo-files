@@ -1,0 +1,100 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: rhdh
+  description: Red Hat Developer Hub
+spec:
+  type: team
+  profile:
+    # Intentional no displayName for testing
+    email: rhdh@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: developers
+  description: developers group
+spec:
+  type: team
+  profile:
+    # Intentional no displayName for testing
+    email: developers@acme.com
+  parent: rhdh
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user1
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user1@acme.com
+  memberOf: [developers]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: project-managers
+  description: project managers group
+spec:
+  type: team
+  profile:
+    # Intentional no displayName for testing
+    email: pm@acme.com
+  parent: rhdh
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user2
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user2@acme.com
+  memberOf: [project-managers]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: product-owners
+  description: POs group
+spec:
+  type: team
+  profile:
+    # Intentional no displayName for testing
+    email: po@acme.com
+  parent: rhdh
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user3
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user3@acme.com
+  memberOf: [product-owners]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user4
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user4@acme.com
+  memberOf: [developers]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user5
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user5@acme.com
+  memberOf: [developers]
